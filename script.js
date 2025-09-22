@@ -896,7 +896,7 @@ const concepts = [
     title: "Consistencia",
     description: "Propiedad ACID que asegura que la base de datos pase de un estado válido a otro válido después de una transacción.",
     category: "Transacciones",
-    example: "Si se transfiere dinero de una cuenta a otra, el total de saldo se mantiene constante.",
+    example: "Las transacciones llevan a la base de datos de un estado válido a otro también válido.",
     references: [
       "Ricardo, C. M. (2009). Bases de datos (V. Campos Olguín & J. Enríquez Brito, Trad.). McGraw-Hill.",
       "López Montalbán, I. (2ª ed.). Gestión de bases de datos. Editorial."
@@ -962,7 +962,7 @@ const concepts = [
     title: "Durabilidad",
     description: "Propiedad ACID que garantiza que una vez confirmada una transacción, los cambios persisten incluso ante fallos.",
     category: "Transacciones",
-    example: "Después de un commit en una transferencia bancaria, los cambios no se pierden aunque falle el sistema.",
+    example: "Una vez que una transacción se confirma (commit), los cambios persisten incluso ante fallos del sistema.",
     references: [
       "Ricardo, C. M. (2009). Bases de datos (V. Campos Olguín & J. Enríquez Brito, Trad.). McGraw-Hill.",
       "López Montalbán, I. (2ª ed.). Gestión de bases de datos. Editorial."
@@ -1309,6 +1309,28 @@ const concepts = [
       "López Montalbán, I. (2ª ed.). Gestión de bases de datos. Editorial."
     ]
   },
+{
+    id: 138,
+    title: "Atomicidad",
+    description: "Propiedad ACID que garantiza que todas las operaciones de una transacción se completan o ninguna se realiza, evitando estados intermedios inconsistentes.",
+    category: "Transacciones",
+    example: "Todas las operaciones de una transacción se completan o ninguna se realiza.",
+    references: [
+      "Ricardo, C. M. (2009). Bases de datos (V. Campos Olguín & J. Enríquez Brito, Trad.). McGraw-Hill.",
+      "López Montalbán, I. (2ª ed.). Gestión de bases de datos. Editorial."
+    ]
+  },
+{
+    id: 2,
+    title: "Aislamiento",
+    description: "Propiedad ACID que garantiza que las transacciones concurrentes se ejecutan como si fueran secuenciales, evitando interferencias entre ellas.",
+    category: "Transacciones",
+    example: "Las transacciones concurrentes se ejecutan como si fueran secuenciales, evitando interferencias.",
+    references: [
+      "Ricardo, C. M. (2009). Bases de datos (V. Campos Olguín & J. Enríquez Brito, Trad.). McGraw-Hill.",
+      "López Montalbán, I. (2ª ed.). Gestión de bases de datos. Editorial."
+    ]
+  }
   ];
 // Eliminar conceptos con IDs duplicados, manteniendo el primero que aparece
 const uniqueConcepts = Array.from(
@@ -1322,6 +1344,45 @@ console.log("Total conceptos únicos:", uniqueConcepts.length);
     const resultsGrid = document.getElementById("resultsGrid");
     const resultsInfo = document.getElementById("resultsInfo");
     const footerMessage = document.getElementById("footerMessage");
+
+    // Referencias extra
+    const filterButton = document.getElementById("filterButton");
+
+    // Sacar categorías únicas del array
+    const categories = [...new Set(concepts.map(c => c.category).filter(Boolean))];
+
+    // Crear el dropdown dinámico
+    const dropdown = document.createElement("div");
+    dropdown.className = "filter-dropdown";
+    dropdown.style.display = "none"; // oculto al inicio
+    dropdown.innerHTML = `
+      <button data-category="all">Todos</button>
+      ${categories.map(cat => `<button data-category="${cat}">${cat}</button>`).join("")}
+    `;
+
+    // Insertar el dropdown después del botón
+    filterButton.insertAdjacentElement("afterend", dropdown);
+
+    // Mostrar/ocultar menú al dar clic en el botón
+    filterButton.addEventListener("click", () => {
+      dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+    });
+
+    // Manejar clic en categorías
+    dropdown.addEventListener("click", (e) => {
+      if (e.target.tagName === "BUTTON") {
+        const selectedCategory = e.target.dataset.category;
+
+        if (selectedCategory === "all") {
+          displayResults(concepts);
+        } else {
+          const filtered = concepts.filter(c => c.category === selectedCategory);
+          displayResults(filtered, selectedCategory);
+        }
+
+        dropdown.style.display = "none"; // cerrar menú
+      }
+    });
 
     // Función para mostrar resultados
     function displayResults(results, searchTerm = "") {
@@ -1406,4 +1467,5 @@ console.log("Total conceptos únicos:", uniqueConcepts.length);
     // Mostrar todos los conceptos al cargar la página
     window.addEventListener("DOMContentLoaded", () => {
       displayResults(concepts);
+      document.getElementById("footerFixed").textContent = "© 2025 Equipo II – Todos los derechos reservados \nIntegrantes: Oliver Joel Villamonte Vargas \nDiego Antonio Chac Ramírez \nJose Enrique Hernandez Lira \nNeil Emmanuel Che Trejo \nLeonardo Madrigal May \nRoberto  J. Ramirez Damian";
     });
