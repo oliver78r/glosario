@@ -10,20 +10,35 @@
   <div class="container">
 
     <header class="header">
+      <div class="logo-container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSA5_aeItjqhMTUr9NSx0KsafKwgczTUQNQHA&s" alt="Logo" class="logoFacultad">
+        <div class="logoText">
+          UACAM <br> Facultad de Ingeniería <br> Base de Datos I
+        </div>
+      </div>
       <h1>GLOSARIO</h1>
-      <p>Encuentra definiciones y ejemplos de conceptos clave</p>
+      <p>Encuentra definiciones y ejemplos de conceptos clave sobre las bases de datos</p>
     </header>
 
     <section class="search-section">
-      <input type="text" id="searchInput" placeholder="Buscar concepto...">
-      <button id="searchButton">Buscar</button>
-    </section>
+  <input type="text" id="searchInput" placeholder="Buscar concepto...">
+  
+  <!-- Botón de filtro -->
+  <div class="filter-wrapper" style="position: relative;">
+    <button id="filterButton" aria-label="Filtrar por categoría"></button>
+    <div id="filterDropdown" class="filter-dropdown" style="display: none;">
+    </div>
+  </div>
+
+  <button id="searchButton">Buscar</button>
+</section>
 
     <div id="resultsInfo" class="results-info"></div>
     <div id="resultsGrid" class="results-grid"></div>
 
-    <footer class="footer" id="footerMessage">
-      © 2025 oliver – Todos los derechos reservados
+    <footer class="footer">
+      <div id="footerMessage"></div> <!-- Mensaje dinámico de resultados -->
+      <div id="footerFixed"></div> <!-- Texto fijo -->
     </footer>
     
   </div>
